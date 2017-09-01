@@ -1,8 +1,8 @@
-/* Revise the main routine of the longest-line program so it will correctly print
- * the length of arbitrarily long input lines, and as much as possible of text */
+/* Write a program to print all input lines that are
+ * longer than 80 characters */
 
 #include <stdio.h>
-#define MAXLINE 30 /* maximum input line size */
+#define MAXLINE 82 /* maximum input line size */
 
 int getline(char line[], int maxline);
 void copy(char to[], char from[]);
@@ -19,22 +19,14 @@ main()
 
   max = 0;
   while ((len = getline(line, MAXLINE)) > 0) {
-    if (len ==MAXLINE-1 && line[MAXLINE-1]!='\n') { /* the line might be longer */
-      copy(tmp_line, line);
-      tmp_len = len;
-      while (tmp_len==MAXLINE-1 && tmp_line[MAXLINE-1]!='\n') {
-        tmp_len = getline(tmp_line, MAXLINE);
-        len += tmp_len;
+    if (len > MAXLINE-2) {
+      printf("%s", line);
+      while (len==MAXLINE-1 && line[MAXLINE-1]!='\n') {
+        len = getline(line, MAXLINE);
+        printf("%s", line);
       }
     }
-    if (len > max) {
-      max = len;
-      copy(longest, line);
-    }
-    printf("%d\n", len);
   }
-  if (max > 0) /* there was a line */
-    printf("%s", longest);
   return 0;
 }
 
